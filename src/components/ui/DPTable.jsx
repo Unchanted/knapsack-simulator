@@ -65,13 +65,10 @@ export default function DPTable() {
                   if (isCurrentCell) {
                     cellClass += " bg-accent-700 animate-pulse";
                   } else if (i === solution.dpTable.length - 1 && j === capacity) {
-                    // final answer cell
                     cellClass += " bg-green-900 font-bold";
                   } else if (i === (currentState.currentItem !== null ? currentState.currentItem + 1 : 0)) {
-                    // current row
                     cellClass += " bg-primary-900/50";
                   } else if (j === currentState.currentCapacity) {
-                    // current column
                     cellClass += " bg-primary-800/30";
                   } else {
                     cellClass += " bg-gray-700";
