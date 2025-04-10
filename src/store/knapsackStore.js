@@ -1,15 +1,14 @@
 import { create } from 'zustand';
-import { solveKnapsack, generateRandomItems } from '../utils/knapsackAlgorithm.js';
+import { solveKnapsack, generateRandomItems } from '../utils/knapsackAlgorithm';
 
 const useKnapsackStore = create((set, get) => ({
   capacity: 15,
-  items: generateRandomItems(5),
+  items: [],
   solution: null,
   currentStateIndex: 0,
   isAnimating: false,
   animationSpeed: 500,
-
-  setItems: (items) => set({ items }),
+  animationTimer: null,
 
   setCapacity: (capacity) => set({ capacity }),
 
@@ -17,15 +16,10 @@ const useKnapsackStore = create((set, get) => ({
     items: [...state.items, { ...item, id: state.items.length }]
   })),
 
-  removeItem: (id) => set((state) => ({
-    items: state.items.filter(item => item.id !== id)
-  })),
-
-  updateItem: (id, updates) => set((state) => ({
-    items: state.items.map(item =>
-      item.id === id ? { ...item, ...updates } : item
-    )
-  })),
+  generateRandomItems: (count) => {
+    const items = generateRandomItems(count);
+    set({ items, solution: null, currentStateIndex: 0 });
+  },
 
   solve: () => {
     const { items, capacity } = get();
@@ -34,14 +28,17 @@ const useKnapsackStore = create((set, get) => ({
     return solution;
   },
 
-  generateRandomItems: (count) => {
-    const items = generateRandomItems(count);
-    set({ items, solution: null, currentStateIndex: 0 });
+  reset: () => {
+    const { animationTimer } = get();
+    if (animationTimer) clearTimeout(animationTimer);
+    set({ solution: null, currentStateIndex: 0, isAnimating: false, animationTimer: null });
   },
 
   startAnimation: () => {
-    const { solution, isAnimating } = get();
+    const { solution, isAnimating, animationTimer } = get();
     if (!solution || isAnimating) return;
+
+    if (animationTimer) clearTimeout(animationTimer);
 
     set({ isAnimating: true });
 
@@ -51,23 +48,29 @@ const useKnapsackStore = create((set, get) => ({
       if (!isAnimating) return;
 
       if (currentStateIndex < solution.states.length - 1) {
-        set({ currentStateIndex: currentStateIndex + 1 });
-        setTimeout(animate, animationSpeed);
+        const timer = setTimeout(() => {
+          set({ currentStateIndex: currentStateIndex + 1 });
+          animate();
+        }, animationSpeed);
+
+        set({ animationTimer: timer });
       } else {
-        set({ isAnimating: false });
+        set({ isAnimating: false, animationTimer: null });
       }
     };
 
-    setTimeout(animate, get().animationSpeed);
+    animate();
   },
 
-  pauseAnimation: () => set({ isAnimating: false }),
+  pauseAnimation: () => {
+    const { animationTimer } = get();
+    if (animationTimer) clearTimeout(animationTimer);
+    set({ isAnimating: false, animationTimer: null });
+  },
 
   setAnimationSpeed: (speed) => set({ animationSpeed: speed }),
 
   setCurrentStateIndex: (index) => set({ currentStateIndex: index }),
-
-  reset: () => set({ solution: null, currentStateIndex: 0, isAnimating: false }),
 }));
 
 export default useKnapsackStore;
