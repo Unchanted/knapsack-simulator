@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { solveKnapsack, generateRandomItems } from '../utils/knapsackAlgorithm';
+import { solveKnapsack, generateRandomItems } from '../utils/knapsackAlgorithm.js';
 
 const useKnapsackStore = create((set, get) => ({
   capacity: 15,

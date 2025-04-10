@@ -1,3 +1,4 @@
+
 /**
  * @param {Array} items - Array of objects with weight and value properties
  * @param {Number} capacity - Maximum capacity of the knapsack
