@@ -1,38 +1,33 @@
 import { useRef, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Text } from '@react-three/drei';
+import { Text, MeshDistortMaterial } from '@react-three/drei';
 import * as THREE from 'three';
 
 export default function ItemObject({ item, position, inKnapsack = false }) {
   const ref = useRef();
   const [hovered, setHovered] = useState(false);
 
+  const getGeometry = () => {
+    const ratio = item.value / item.weight;
+
+    if (ratio > 3) return <octahedronGeometry args={[0.7, 0]} />;
+    if (ratio > 1.5) return <dodecahedronGeometry args={[0.7]} />;
+    return <boxGeometry args={[1, 1, 1]} />;
+  };
+
   useFrame((state) => {
     if (!ref.current) return;
 
     if (hovered) {
       ref.current.rotation.y += 0.02;
-      ref.current.position.y = position[1] + Math.sin(state.clock.getElapsedTime() * 2) * 0.1;
-    } else {
+      ref.current.position.y = position[1] + Math.sin(state.clock.getElapsedTime() * 2) * 0.2;
+    } else if (!inKnapsack) {
       ref.current.rotation.y += 0.005;
-      ref.current.position.y = position[1];
+      ref.current.position.y = position[1] + Math.sin(state.clock.getElapsedTime() * 0.5 + item.id) * 0.1;
+    } else {
+      ref.current.rotation.y += 0.002;
     }
   });
-
-  const getGeometry = () => {
-    switch (item.shape) {
-      case 'sphere':
-        return <sphereGeometry args={[0.6, 32, 32]} />;
-      case 'cylinder':
-        return <cylinderGeometry args={[0.5, 0.5, 1.2, 32]} />;
-      case 'cone':
-        return <coneGeometry args={[0.6, 1.2, 32]} />;
-      case 'torus':
-        return <torusGeometry args={[0.5, 0.2, 16, 32]} />;
-      default: // cube
-        return <boxGeometry args={[1, 1, 1]} />;
-    }
-  };
 
   return (
     <group position={position}>
@@ -45,13 +40,26 @@ export default function ItemObject({ item, position, inKnapsack = false }) {
         scale={hovered ? 1.1 : 1}
       >
         {getGeometry()}
-        <meshStandardMaterial
-          color={item.color}
-          metalness={0.5}
-          roughness={0.5}
-          emissive={hovered ? item.color : '#000000'}
-          emissiveIntensity={hovered ? 0.3 : 0}
-        />
+
+        {inKnapsack ? (
+          <MeshDistortMaterial
+            color={item.color}
+            speed={0.5}
+            distort={0.2}
+            metalness={0.8}
+            roughness={0.2}
+            emissive={item.color}
+            emissiveIntensity={0.3}
+          />
+        ) : (
+          <meshPhysicalMaterial
+            color={item.color}
+            metalness={0.3}
+            roughness={0.5}
+            clearcoat={0.5}
+            clearcoatRoughness={0.3}
+          />
+        )}
       </mesh>
 
       <Text
@@ -60,18 +68,11 @@ export default function ItemObject({ item, position, inKnapsack = false }) {
         color="white"
         anchorX="center"
         anchorY="middle"
+        depthOffset={1}
+        outlineWidth={0.01}
+        outlineColor="#000000"
       >
-        W: {item.weight} | V: {item.value}
-      </Text>
-
-      <Text
-        position={[0, -1.2, 0]}
-        fontSize={0.25}
-        color={inKnapsack ? '#4ade80' : '#f87171'}
-        anchorX="center"
-        anchorY="middle"
-      >
-        {inKnapsack ? 'In Knapsack' : 'Not Selected'}
+        {`W:${item.weight} V:${item.value}`}
       </Text>
     </group>
   );
