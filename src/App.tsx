@@ -1,34 +1,45 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Suspense, useState, useEffect } from 'react'
+import Scene from './components/layout/Scene'
+import Interface from './components/layout/Interface'
+import { Canvas } from '@react-three/fiber'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false)
+    }, 2000)
+
+    return () => clearTimeout(timer)
+  }, [])
+
+  if (loading) {
+    return (
+      <div className="w-screen h-screen flex items-center justify-center bg-[var(--background)]">
+        <div className="text-center">
+          <h1 className="text-4xl font-bold mb-4 text-[var(--tertiary)]">
+            Knapsack Simulator
+          </h1>
+          <p className="text-[var(--secondary)]">Loading the visualization...</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div className="w-screen h-screen overflow-hidden">
+      <Canvas
+        shadows
+        camera={{ position: [0, 0, 15], fov: 60 }}
+        dpr={[1, 2]}
+      >
+        <Suspense fallback={null}>
+          <Scene />
+        </Suspense>
+      </Canvas>
+      <Interface />
+    </div>
   )
 }
 
