@@ -1,64 +1,73 @@
-# Otherworldly 3D Knapsack Simulator
+# 0/1 Knapsack Algorithm Visualization
 
-An immersive, artistically stunning visualization of the dynamic programming Knapsack algorithm. This project transforms an abstract algorithm into a breathtaking 3D experience where mathematical elegance meets cutting-edge visual design.
+An interactive web application to visualize the 0/1 Knapsack algorithm using dynamic programming.
 
 ## Features
 
-- **Mesmerizing 3D Environment**: Volumetric cosmic nebula, particle systems, and dynamic lighting
-- **Interactive Algorithm Visualization**: Step through the dynamic programming solution with visual feedback
-- **Dimensional Portal Knapsack**: Items interact with a dimensional portal that visualizes capacity
-- **Crystalline Item Artifacts**: Sacred geometry forms represent items with value/weight relationships
-- **Cosmic Architecture**: Dynamic Programming table visualized as floating monoliths in 3D space
+- Interactive visualization of the dynamic programming approach
+- Step-by-step explanation of the algorithm execution
+- Ability to add, edit, and remove items
+- Adjustable knapsack capacity and animation speed
+- Real-time visualization of selected items in the knapsack
+- Detailed algorithm explanation
+- Smooth animations with Anime.js
 
-## Technology Stack
+## Technologies Used
 
-- **React 19** with TypeScript
-- **Three.js & React Three Fiber**: Core 3D rendering with React integration
-- **R3F Ecosystem**: Drei, Postprocessing for advanced effects
-- **Zustand**: State management for the application
-- **Tailwind CSS**: Utility-first styling
-- **Custom WebGL Shaders**: GLSL for advanced visual effects
+- React
+- Anime.js for animations
+- Tailwind CSS for styling
+- Vite for bundling and development
 
-## Getting Started
+## Installation
 
-### Prerequisites
+1. Clone this repository
+2. Navigate to the project directory
+3. Install dependencies:
 
-- Node.js (v18.0.0 or higher)
-- npm or yarn
-
-### Installation
-
-1. Clone the repository
-```
-git clone https://github.com/yourusername/knapsack-simulator.git
-cd knapsack-simulator
-```
-
-2. Install dependencies
-```
+```bash
 npm install
 ```
 
-3. Start the development server
-```
+## Running the Application
+
+To start the development server:
+
+```bash
 npm run dev
 ```
 
-4. Open your browser and navigate to `http://localhost:5173`
+This will start the application on http://localhost:5173 (or another port if 5173 is in use).
 
-## Usage
+## Building for Production
 
-1. **Generate Items**: Click "Generate Random" to create random knapsack items or add them manually
-2. **Set Capacity**: Define the knapsack capacity
-3. **Solve**: Run the dynamic programming algorithm
-4. **Explore**: Use the playback controls to step through the algorithm
-5. **Interact**: Orbit around the 3D scene to view from different angles
+To create a production build:
+
+```bash
+npm run build
+```
+
+The build files will be generated in the `dist` directory.
+
+## How to Use
+
+1. Add or edit items with their weights and values
+2. Set the knapsack capacity using the slider
+3. Use the play button to run the complete animation
+4. Use the step forward/backward buttons to navigate through the algorithm step by step
+5. The table shows the dynamic programming matrix being filled
+6. The knapsack visualization shows which items are selected in the optimal solution
+
+## Project Structure
+
+- `src/components/` - React components
+  - `KnapsackVisualizer.jsx` - Main component that manages the simulation
+  - `KnapsackTable.jsx` - Renders the DP table
+  - `ItemsList.jsx` - Manages the list of available items
+  - `KnapsackSack.jsx` - Visualizes the knapsack and selected items
+  - `ControlPanel.jsx` - Controls for the simulation
+  - `AlgorithmExplanation.jsx` - Explanation of the algorithm
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details
-
-## Acknowledgments
-
-- Three.js and React Three Fiber for the amazing 3D capabilities in the browser
-- The academic community for the dynamic programming approach to the Knapsack problem
+MIT 
