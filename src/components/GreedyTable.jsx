@@ -184,7 +184,9 @@ const GreedyTable = ({ items, capacity, step, solution, setSolution }) => {
                       title={getTooltipText(item, step === 1 ? 'sort' : 'add')}
                       ref={isHighlighted ? highlightRef : null}
                     >
-                      <td className="p-3 text-center">Item {step === 1 ? i + 1 : item.index + 1}</td>
+                      <td className="p-3 text-center">
+                        Item {i + 1}
+                      </td>
                       <td className="p-3 text-center font-mono">{item.value}</td>
                       <td className="p-3 text-center font-mono">{item.weight}</td>
                       <td className="p-3 text-center font-mono">{item.ratio.toFixed(2)}</td>
@@ -230,4 +232,4 @@ const GreedyTable = ({ items, capacity, step, solution, setSolution }) => {
   );
 };
 
-export default GreedyTable; 
+export default GreedyTable;
