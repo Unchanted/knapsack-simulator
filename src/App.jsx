@@ -1,16 +1,15 @@
-import { useState, useEffect } from 'react'
-import Header from './components/Header'
-import ItemInput from './components/ItemInput'
-import KnapsackVisualizer from './components/KnapsackVisualizer'
-import DPTable from './components/DPTable'
-import GreedyTable from './components/GreedyTable'
-import Summary from './components/Summary'
-import { motion } from 'framer-motion'
+import { useState, useEffect } from "react";
+import Header from "./components/Header";
+import ItemInput from "./components/ItemInput";
+import KnapsackVisualizer from "./components/KnapsackVisualizer";
+import DPTable from "./components/DPTable";
+import GreedyTable from "./components/GreedyTable";
+import Summary from "./components/Summary";
 
 function App() {
   const [items, setItems] = useState([]);
   const [capacity, setCapacity] = useState(10);
-  const [mode, setMode] = useState('dp'); // 'dp' for 0/1, 'greedy' for fractional
+  const [mode, setMode] = useState("dp"); // 'dp' for 0/1, 'greedy' for fractional
   const [isPlaying, setIsPlaying] = useState(false);
   const [speed, setSpeed] = useState(1);
   const [step, setStep] = useState(0);
@@ -18,7 +17,7 @@ function App() {
     maxValue: 0,
     selectedItems: [],
     dpTable: [],
-    currentHighlight: null
+    currentHighlight: null,
   });
 
   const handleCapacityChange = (value) => {
@@ -31,29 +30,28 @@ function App() {
     resetSimulation();
   };
 
-  
   const handleLoadItems = (newItems) => {
-    
     const itemsWithIds = newItems.map((item, index) => ({
       ...item,
-      id: Date.now() + index
+      id: Date.now() + index,
     }));
-    
+
     setItems(itemsWithIds);
     resetSimulation();
   };
 
   const handleEditItem = (id, updatedItem) => {
-    setItems(items.map(item => item.id === id ? { ...updatedItem, id } : item));
+    setItems(
+      items.map((item) => (item.id === id ? { ...updatedItem, id } : item)),
+    );
     resetSimulation();
   };
 
   const handleDeleteItem = (id) => {
-    setItems(items.filter(item => item.id !== id));
+    setItems(items.filter((item) => item.id !== id));
     resetSimulation();
   };
 
-  
   const handleClearAllItems = () => {
     setItems([]);
     resetSimulation();
@@ -61,14 +59,14 @@ function App() {
 
   const handleModeChange = (newMode) => {
     setMode(newMode);
-    
+
     setIsPlaying(false);
     setStep(0);
     setSolution({
       maxValue: 0,
       selectedItems: [],
       dpTable: [],
-      currentHighlight: null
+      currentHighlight: null,
     });
   };
 
@@ -91,7 +89,7 @@ function App() {
       maxValue: 0,
       selectedItems: [],
       dpTable: [],
-      currentHighlight: null
+      currentHighlight: null,
     });
   };
 
@@ -100,12 +98,9 @@ function App() {
   };
 
   const getMaxSteps = () => {
-    
-    if (mode === 'dp') {
+    if (mode === "dp") {
       return (items.length + 1) * (capacity + 1);
-    }
-    
-    else {
+    } else {
       return items.length + 1;
     }
   };
@@ -120,7 +115,7 @@ function App() {
     } else if (step >= getMaxSteps()) {
       setIsPlaying(false);
     }
-    
+
     return () => {
       clearTimeout(timer);
     };
@@ -128,7 +123,7 @@ function App() {
 
   return (
     <div className="h-screen w-screen flex flex-col overflow-hidden">
-      <Header 
+      <Header
         isPlaying={isPlaying}
         onPlayPause={handlePlayPause}
         onStepForward={handleStepForward}
@@ -138,10 +133,10 @@ function App() {
         mode={mode}
         onModeChange={handleModeChange}
       />
-      
+
       {}
       <div className="flex-1 overflow-y-auto">
-        <motion.div 
+        <motion.div
           className="flex p-4 gap-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -149,7 +144,7 @@ function App() {
         >
           {}
           <div className="w-1/4 bg-white/10 backdrop-blur-md rounded-lg p-4 flex flex-col gap-4 sticky top-4">
-            <ItemInput 
+            <ItemInput
               items={items}
               onAddItem={handleAddItem}
               onEditItem={handleEditItem}
@@ -161,11 +156,11 @@ function App() {
               onClearAllItems={handleClearAllItems}
             />
           </div>
-          
+
           {/* Center - Simulation (DP Table or Greedy) */}
           <div className="w-2/4 bg-white/10 backdrop-blur-md rounded-lg p-4 flex flex-col">
-            {mode === 'dp' ? (
-              <DPTable 
+            {mode === "dp" ? (
+              <DPTable
                 items={items}
                 capacity={capacity}
                 step={step}
@@ -173,7 +168,7 @@ function App() {
                 setSolution={setSolution}
               />
             ) : (
-              <GreedyTable 
+              <GreedyTable
                 items={items}
                 capacity={capacity}
                 step={step}
@@ -182,10 +177,10 @@ function App() {
               />
             )}
           </div>
-          
+
           {}
           <div className="w-1/4 bg-white/10 backdrop-blur-md rounded-lg p-4 flex flex-col">
-            <KnapsackVisualizer 
+            <KnapsackVisualizer
               items={items}
               capacity={capacity}
               selectedItems={solution.selectedItems}
@@ -193,19 +188,18 @@ function App() {
             />
           </div>
         </motion.div>
-        
+
         {}
         {step >= getMaxSteps() && (
-          <motion.div 
+          <motion.div
             className="w-full bg-white/10 backdrop-blur-md rounded-lg p-4 mx-4 mb-4"
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5 }}
           >
-            <Summary 
+            <Summary
               maxValue={solution.maxValue}
               selectedItems={solution.selectedItems}
-              items={items}
               mode={mode}
             />
           </motion.div>
@@ -215,4 +209,4 @@ function App() {
   );
 }
 
-export default App
+export default App;
