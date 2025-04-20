@@ -10,7 +10,7 @@ import { motion } from "framer-motion";
 function App() {
   const [items, setItems] = useState([]);
   const [capacity, setCapacity] = useState(10);
-  const [mode, setMode] = useState("dp"); // 'dp' for 0/1, 'greedy' for fractional
+  const [mode, setMode] = useState("dp");
   const [isPlaying, setIsPlaying] = useState(false);
   const [speed, setSpeed] = useState(1);
   const [step, setStep] = useState(0);
@@ -135,7 +135,7 @@ function App() {
         onModeChange={handleModeChange}
       />
 
-      {}
+      { }
       <div className="flex-1 overflow-y-auto">
         <motion.div
           className="flex p-4 gap-4"
@@ -143,7 +143,7 @@ function App() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-          {}
+          { }
           <div className="w-1/4 bg-white/10 backdrop-blur-md rounded-lg p-4 flex flex-col gap-4 sticky top-4">
             <ItemInput
               items={items}
@@ -158,7 +158,6 @@ function App() {
             />
           </div>
 
-          {/* Center - Simulation (DP Table or Greedy) */}
           <div className="w-2/4 bg-white/10 backdrop-blur-md rounded-lg p-4 flex flex-col">
             {mode === "dp" ? (
               <DPTable
@@ -179,7 +178,7 @@ function App() {
             )}
           </div>
 
-          {}
+          { }
           <div className="w-1/4 bg-white/10 backdrop-blur-md rounded-lg p-4 flex flex-col">
             <KnapsackVisualizer
               items={items}
@@ -190,7 +189,7 @@ function App() {
           </div>
         </motion.div>
 
-        {}
+        { }
         {step >= getMaxSteps() && (
           <motion.div
             className="w-full bg-white/10 backdrop-blur-md rounded-lg p-4 mx-4 mb-4"
