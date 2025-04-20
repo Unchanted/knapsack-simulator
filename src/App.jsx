@@ -31,9 +31,9 @@ function App() {
     resetSimulation();
   };
 
-  // Add a function to load multiple items at once
+  
   const handleLoadItems = (newItems) => {
-    // Generate unique IDs for each item
+    
     const itemsWithIds = newItems.map((item, index) => ({
       ...item,
       id: Date.now() + index
@@ -53,7 +53,7 @@ function App() {
     resetSimulation();
   };
 
-  // Add function to clear all items
+  
   const handleClearAllItems = () => {
     setItems([]);
     resetSimulation();
@@ -61,7 +61,7 @@ function App() {
 
   const handleModeChange = (newMode) => {
     setMode(newMode);
-    // Keep the items but reset the simulation
+    
     setIsPlaying(false);
     setStep(0);
     setSolution({
@@ -100,11 +100,11 @@ function App() {
   };
 
   const getMaxSteps = () => {
-    // For DP, the max steps is the number of cells in the table
+    
     if (mode === 'dp') {
       return (items.length + 1) * (capacity + 1);
     }
-    // For greedy, the max steps is sorting + adding items
+    
     else {
       return items.length + 1;
     }
@@ -139,75 +139,78 @@ function App() {
         onModeChange={handleModeChange}
       />
       
-      <motion.div 
-        className="flex flex-1 p-4 gap-4"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
-      >
-        {/* Left Panel - Inputs */}
-        <div className="w-1/4 bg-white/10 backdrop-blur-md rounded-lg p-4 flex flex-col gap-4">
-          <ItemInput 
-            items={items}
-            onAddItem={handleAddItem}
-            onEditItem={handleEditItem}
-            onDeleteItem={handleDeleteItem}
-            capacity={capacity}
-            onCapacityChange={handleCapacityChange}
-            mode={mode}
-            onLoadItems={handleLoadItems}
-            onClearAllItems={handleClearAllItems}
-          />
-        </div>
-        
-        {/* Center - Simulation (DP Table or Greedy) */}
-        <div className="w-2/4 bg-white/10 backdrop-blur-md rounded-lg p-4 flex flex-col">
-          {mode === 'dp' ? (
-            <DPTable 
-              items={items}
-              capacity={capacity}
-              step={step}
-              solution={solution}
-              setSolution={setSolution}
-            />
-          ) : (
-            <GreedyTable 
-              items={items}
-              capacity={capacity}
-              step={step}
-              solution={solution}
-              setSolution={setSolution}
-            />
-          )}
-        </div>
-        
-        {/* Right Panel - Knapsack Visualizer */}
-        <div className="w-1/4 bg-white/10 backdrop-blur-md rounded-lg p-4 flex flex-col">
-          <KnapsackVisualizer 
-            items={items}
-            capacity={capacity}
-            selectedItems={solution.selectedItems}
-            mode={mode}
-          />
-        </div>
-      </motion.div>
-      
-      {/* Bottom - Summary (Optional) */}
-      {step >= getMaxSteps() && (
+      {}
+      <div className="flex-1 overflow-y-auto">
         <motion.div 
-          className="w-full bg-white/10 backdrop-blur-md rounded-lg p-4 m-4"
-          initial={{ y: 50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
+          className="flex p-4 gap-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-          <Summary 
-            maxValue={solution.maxValue}
-            selectedItems={solution.selectedItems}
-            items={items}
-            mode={mode}
-          />
+          {}
+          <div className="w-1/4 bg-white/10 backdrop-blur-md rounded-lg p-4 flex flex-col gap-4 sticky top-4">
+            <ItemInput 
+              items={items}
+              onAddItem={handleAddItem}
+              onEditItem={handleEditItem}
+              onDeleteItem={handleDeleteItem}
+              capacity={capacity}
+              onCapacityChange={handleCapacityChange}
+              mode={mode}
+              onLoadItems={handleLoadItems}
+              onClearAllItems={handleClearAllItems}
+            />
+          </div>
+          
+          {/* Center - Simulation (DP Table or Greedy) */}
+          <div className="w-2/4 bg-white/10 backdrop-blur-md rounded-lg p-4 flex flex-col">
+            {mode === 'dp' ? (
+              <DPTable 
+                items={items}
+                capacity={capacity}
+                step={step}
+                solution={solution}
+                setSolution={setSolution}
+              />
+            ) : (
+              <GreedyTable 
+                items={items}
+                capacity={capacity}
+                step={step}
+                solution={solution}
+                setSolution={setSolution}
+              />
+            )}
+          </div>
+          
+          {}
+          <div className="w-1/4 bg-white/10 backdrop-blur-md rounded-lg p-4 flex flex-col">
+            <KnapsackVisualizer 
+              items={items}
+              capacity={capacity}
+              selectedItems={solution.selectedItems}
+              mode={mode}
+            />
+          </div>
         </motion.div>
-      )}
+        
+        {}
+        {step >= getMaxSteps() && (
+          <motion.div 
+            className="w-full bg-white/10 backdrop-blur-md rounded-lg p-4 mx-4 mb-4"
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <Summary 
+              maxValue={solution.maxValue}
+              selectedItems={solution.selectedItems}
+              items={items}
+              mode={mode}
+            />
+          </motion.div>
+        )}
+      </div>
     </div>
   );
 }
