@@ -255,23 +255,23 @@ const Header = ({
         <div className="bg-black/20 p-2 rounded-lg">
           <div className="flex items-center gap-2">
             <span className="text-white font-medium">Mode:</span>
-            <button 
-              onClick={() => onModeChange('dp')}
-              className={`px-3 py-1 rounded-md transition-all ${
-                mode === 'dp' 
-                  ? 'bg-indigo-600 text-white font-bold' 
-                  : 'bg-white/20 hover:bg-white/30'
+            <button
+              className={`px-4 py-2 rounded-lg ${
+                mode === 'dp'
+                  ? 'outline outline-2 outline-purple-500'
+                  : 'hover:outline hover:outline-2 hover:outline-purple-500'
               }`}
+              onClick={() => onModeChange('dp')}
             >
               0/1 Knapsack
             </button>
-            <button 
-              onClick={() => onModeChange('greedy')}
-              className={`px-3 py-1 rounded-md transition-all ${
-                mode === 'greedy' 
-                  ? 'bg-indigo-600 text-white font-bold' 
-                  : 'bg-white/20 hover:bg-white/30'
+            <button
+              className={`px-4 py-2 rounded-lg ${
+                mode === 'greedy'
+                  ? 'outline outline-2 outline-purple-500'
+                  : 'hover:outline hover:outline-2 hover:outline-purple-500'
               }`}
+              onClick={() => onModeChange('greedy')}
             >
               Fractional Knapsack
             </button>
@@ -282,4 +282,4 @@ const Header = ({
   );
 };
 
-export default Header; 
+export default Header;
