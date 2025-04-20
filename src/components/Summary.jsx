@@ -1,3 +1,5 @@
+import { motion } from "framer-motion";
+
 const Summary = ({ maxValue, selectedItems, mode }) => {
   const calculateTotalWeight = () => {
     return selectedItems.reduce(

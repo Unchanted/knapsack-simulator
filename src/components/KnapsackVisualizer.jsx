@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import * as anime from "animejs";
+import { motion } from "framer-motion";
 
 const KnapsackVisualizer = ({ items, capacity, selectedItems, mode }) => {
   const knapsackRef = useRef(null);

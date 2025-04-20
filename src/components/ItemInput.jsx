@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import { sampleProblems } from "../utils/sampleData";
+import { motion } from "framer-motion";
 
 const ItemInput = ({
   items,

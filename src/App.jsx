@@ -5,6 +5,7 @@ import KnapsackVisualizer from "./components/KnapsackVisualizer";
 import DPTable from "./components/DPTable";
 import GreedyTable from "./components/GreedyTable";
 import Summary from "./components/Summary";
+import { motion } from "framer-motion";
 
 function App() {
   const [items, setItems] = useState([]);
