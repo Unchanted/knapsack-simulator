@@ -20,12 +20,12 @@ const ItemInput = ({
   const handleAddItem = () => {
     const value = parseInt(newItem.value);
     const weight = parseFloat(newItem.weight);
-    
+
     if (isNaN(value) || isNaN(weight) || value <= 0 || weight <= 0) {
       alert('Please enter valid positive numbers for value and weight');
       return;
     }
-    
+
     onAddItem({ value, weight });
     setNewItem({ value: '', weight: '' });
   };
@@ -38,12 +38,12 @@ const ItemInput = ({
   const handleEditSave = () => {
     const value = parseInt(newItem.value);
     const weight = parseFloat(newItem.weight);
-    
+
     if (isNaN(value) || isNaN(weight) || value <= 0 || weight <= 0) {
       alert('Please enter valid positive numbers for value and weight');
       return;
     }
-    
+
     onEditItem(editingId, { value, weight });
     setEditingId(null);
     setNewItem({ value: '', weight: '' });
@@ -62,20 +62,17 @@ const ItemInput = ({
   };
 
   const loadSampleProblem = (problem) => {
-    // Set capacity first
     onCapacityChange(problem.capacity);
-    
-    // Load all items at once
+
     onLoadItems(problem.items);
-    
-    // Close the dropdown
+
     setShowSamples(false);
   };
 
   return (
     <div className="flex flex-col h-full">
       <h2 className="text-xl font-bold mb-4">Input Parameters</h2>
-      
+
       <div className="mb-4">
         <label className="block mb-2">Knapsack Capacity</label>
         <input
@@ -86,9 +83,9 @@ const ItemInput = ({
           className="w-full px-3 py-2 bg-white/20 rounded-lg text-white"
         />
       </div>
-      
+
       <h3 className="font-bold mb-2">Items</h3>
-      
+
       <div className="mb-4 flex flex-col sm:flex-row flex-wrap gap-2">
         <input
           type="number"
@@ -106,7 +103,7 @@ const ItemInput = ({
           step={mode === 'greedy' ? '0.1' : '1'}
         />
         {editingId === null ? (
-          <button 
+          <button
             onClick={handleAddItem}
             className="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 rounded-lg flex items-center justify-center sm:justify-start"
           >
@@ -117,7 +114,7 @@ const ItemInput = ({
           </button>
         ) : (
           <div className="flex w-full sm:w-auto gap-1 justify-center">
-            <button 
+            <button
               onClick={handleEditSave}
               className="bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg flex items-center"
             >
@@ -126,7 +123,7 @@ const ItemInput = ({
               </svg>
               <span className="ml-1 sm:hidden">Save</span>
             </button>
-            <button 
+            <button
               onClick={handleEditCancel}
               className="bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-lg flex items-center"
             >
@@ -138,23 +135,23 @@ const ItemInput = ({
           </div>
         )}
       </div>
-      
+
       <div className="relative mb-4">
         <button
           onClick={() => setShowSamples(!showSamples)}
           className="w-full py-2 bg-indigo-600/70 hover:bg-indigo-700/70 text-white rounded-lg flex items-center justify-center"
         >
           <span>Load Sample Problem</span>
-          <svg 
-            xmlns="http://www.w3.org/2000/svg" 
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
             className={`h-5 w-5 ml-2 transition-transform duration-300 ${showSamples ? 'rotate-180' : ''}`}
-            viewBox="0 0 20 20" 
+            viewBox="0 0 20 20"
             fill="currentColor"
           >
             <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
           </svg>
         </button>
-        
+
         <AnimatePresence>
           {showSamples && (
             <motion.div
@@ -180,8 +177,7 @@ const ItemInput = ({
           )}
         </AnimatePresence>
       </div>
-      
-      {/* Clear All Items Button */}
+
       {items.length > 0 && (
         <button
           onClick={onClearAllItems}
@@ -193,7 +189,7 @@ const ItemInput = ({
           <span>Clear All Items</span>
         </button>
       )}
-      
+
       <div className="flex-1 overflow-y-auto pr-2">
         <AnimatePresence>
           {items.length === 0 ? (
@@ -222,7 +218,7 @@ const ItemInput = ({
                     <span className="font-mono">{`Weight: ${item.weight}`}</span>
                   </div>
                   <div className="flex gap-1">
-                    <button 
+                    <button
                       onClick={() => handleEditStart(item)}
                       className="text-white hover:text-yellow-300"
                     >
@@ -230,7 +226,7 @@ const ItemInput = ({
                         <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                       </svg>
                     </button>
-                    <button 
+                    <button
                       onClick={() => onDeleteItem(item.id)}
                       className="text-white hover:text-red-500"
                     >

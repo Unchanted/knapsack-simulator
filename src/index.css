@@ -14,7 +14,6 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  /* Soothing blue/green gradient instead of harsh pink/purple */
   --bg-gradient-start: #1e3a8a;
   --bg-gradient-middle: #0369a1;
   --bg-gradient-end: #065f46;
